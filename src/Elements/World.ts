@@ -1,4 +1,4 @@
-import { AxesHelper, Clock, Mesh, Scene, sRGBEncoding, WebGLRenderer } from 'three'
+import { AnimationClip, AnimationMixer, AxesHelper, Clock, Mesh, Scene, SkinnedMesh, sRGBEncoding, WebGLRenderer } from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
 import { Config } from '../Types'
@@ -12,6 +12,7 @@ import checkDev from '@/utils/checkDev'
 import { gsap } from 'gsap'
 import createBakeMaterial from '@/materials/createBakeMaterial'
 import matcap from '@/materials/matcap'
+import skinningMatcap from '@/materials/skinningMatcap'
 
 // import Sound from './Sound'
 
@@ -32,6 +33,8 @@ export default class World {
     scene: Scene
     camera: Camera
 
+    animationMixer: AnimationMixer | null
+
     constructor (config: Config) {
         this.isDev = checkDev()
         this.isReady = false
@@ -46,8 +49,10 @@ export default class World {
         this.renderer = this.createRenderer()
         this.scene = new Scene()
         this.camera = new Camera(this.width, this.height)
-        // this.controls = new OrbitControls(this.camera.main, this.canvas)
+        this.controls = new OrbitControls(this.camera.main, this.canvas)
         // this.controls.enabled = false
+
+        this.animationMixer = null
 
         this.init()
         
@@ -56,6 +61,8 @@ export default class World {
     private init () { 
         const axesHelper = new AxesHelper(50)
         this.scene.add(axesHelper)
+
+        this.clock.start()
     }
 
     private createRenderer () {
@@ -75,12 +82,14 @@ export default class World {
 
     // Passed to renderer.setAnimationLoop
     private render () {
+
+        this.animationMixer && this.animationMixer.update(.01)
         
         if (this.isReady) {
             // !this.isDev && this.camera.update()
         } 
 
-        // this.controls.update()
+        this.controls.update()
 
         // if (this.isDev) {
         //     this.controls.update()
@@ -118,19 +127,26 @@ export default class World {
             this.scene.add(model)
         })
 
-        // men
-        const menScene = resources['model-men'].scene
-        const menModels = menScene.children
-        menModels.forEach((mesh: Mesh) => {
-            const model = mesh
-            const color = model.name.split('0')[0]
-            const matcapName = `matcap-${color}`
-            const material = matcap(resources[matcapName]) 
-            model.material = material
+        // man
+        const modelMan = resources['model-man']
+        const manScene = resources['model-man'].scene
+        const menModels = manScene.children[0].children
+        menModels.forEach((mesh: any) => {
+            if (mesh instanceof SkinnedMesh) {
+                // console.log(mesh)
+                const model = mesh
+                const color = model.name.split('0')[0]
+                const matcapName = `matcap-${color}`
+                const material = skinningMatcap(resources[matcapName]) 
+                model.material = material
+            }
         })
-        this.scene.add(menScene)
+        this.scene.add(manScene)
 
-        // men
+        this.animationMixer = new AnimationMixer(manScene)
+        const animations = modelMan.animations
+        const playComputer = this.animationMixer.clipAction(animations.find((a: AnimationClip) => a.name === 'play-computer'))
+        playComputer.play()
 
         this.isReady = true
 

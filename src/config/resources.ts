@@ -8,7 +8,7 @@ export default [
 
     { name: 'model-matcap', type: LoaderType.GLTF, path: '/models/matcap.glb'},
     
-    { name: 'model-men', type: LoaderType.GLTF, path: '/models/men.glb'},
+    { name: 'model-man', type: LoaderType.GLTF, path: '/models/man.glb'},
 
     { name: 'matcap-black', type: LoaderType.Texture, path: '/matcaps/black.webp'},
     { name: 'matcap-blue', type: LoaderType.Texture, path: '/matcaps/blue.webp'},
