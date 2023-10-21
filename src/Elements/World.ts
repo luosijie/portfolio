@@ -82,8 +82,9 @@ export default class World {
 
     // Passed to renderer.setAnimationLoop
     private render () {
+        const delta = this.clock.getDelta()
 
-        this.animationMixer && this.animationMixer.update(.01)
+        this.animationMixer && this.animationMixer.update(delta * .5)
         
         if (this.isReady) {
             // !this.isDev && this.camera.update()

@@ -15,7 +15,7 @@ void main () {
     vec3 x = normalize(vec3(normalizedPosition.z, 0., normalizedPosition.x));
     vec3 y = cross(normalizedPosition, x);
     vec2 point = vec2(dot(x, n), dot(y, n));
-    point = point * .5 + .5; 
+    point = point * .45 + .5; 
 
     vPoint = point;
 }
