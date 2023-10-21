@@ -50,6 +50,7 @@ export default class World {
         this.scene = new Scene()
         this.camera = new Camera(this.width, this.height)
         this.controls = new OrbitControls(this.camera.main, this.canvas)
+        this.controls.target.set(0, 0, 1.4)
         // this.controls.enabled = false
 
         this.animationMixer = null
@@ -146,7 +147,7 @@ export default class World {
 
         this.animationMixer = new AnimationMixer(manScene)
         const animations = modelMan.animations
-        const playComputer = this.animationMixer.clipAction(animations.find((a: AnimationClip) => a.name === 'play-computer'))
+        const playComputer = this.animationMixer.clipAction(animations.find((a: AnimationClip) => a.name === 'say-hello'))
         playComputer.play()
 
         this.isReady = true
