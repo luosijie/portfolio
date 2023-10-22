@@ -8,6 +8,10 @@ import configResources from './config/resources'
 import World from './Elements/World'
 import { Config } from './Types'
 
+import Global from './Global'
+
+const global = Global.getInstance()
+
 const loader = new Loader()
 
 // Config ready to create world
@@ -48,6 +52,10 @@ loader.onLoadEnd(resources => {
 
 window.addEventListener('resize', () => {
     world.updateSize(window.innerWidth, window.innerHeight)
+})
+
+window.addEventListener('mousemove', (evt: MouseEvent) => {
+    global.updateMouse(evt)
 })
 
 /***************************************************************

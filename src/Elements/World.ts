@@ -1,4 +1,4 @@
-import { AnimationClip, AnimationMixer, AxesHelper, Clock, Mesh, Scene, SkinnedMesh, sRGBEncoding, WebGLRenderer } from 'three'
+import { AnimationClip, AnimationMixer, AxesHelper, Clock, Mesh, Raycaster, Scene, SkinnedMesh, sRGBEncoding, WebGLRenderer } from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
 import { Config } from '../Types'
@@ -12,7 +12,10 @@ import checkDev from '@/utils/checkDev'
 import { gsap } from 'gsap'
 import createBakeMaterial from '@/materials/createBakeMaterial'
 import matcap from '@/materials/matcap'
-import skinningMatcap from '@/materials/skinningMatcap'
+import Man from './Man'
+
+import Global from '@/Global'
+const global = Global.getInstance()
 
 // import Sound from './Sound'
 
@@ -33,7 +36,9 @@ export default class World {
     scene: Scene
     camera: Camera
 
-    animationMixer: AnimationMixer | null
+    raycaster: Raycaster
+
+    man: Man | null
 
     constructor (config: Config) {
         this.isDev = checkDev()
@@ -53,7 +58,9 @@ export default class World {
         this.controls.target.set(0, 0, 1.4)
         // this.controls.enabled = false
 
-        this.animationMixer = null
+        this.man = null
+
+        this.raycaster = new Raycaster()
 
         this.init()
         
@@ -83,9 +90,20 @@ export default class World {
 
     // Passed to renderer.setAnimationLoop
     private render () {
+        this.raycaster.setFromCamera(global.mouse.normal, this.camera.main)
+
         const delta = this.clock.getDelta()
 
-        this.animationMixer && this.animationMixer.update(delta * .5)
+        if (this.man) {
+
+            this.man.animationMixer.update(delta * .5)
+            const intersects = this.raycaster.intersectObject(this.man.scene.children[0])
+
+            if (intersects.length > 0) {
+                this.man.sayHello()
+            }
+
+        }
         
         if (this.isReady) {
             // !this.isDev && this.camera.update()
@@ -130,31 +148,16 @@ export default class World {
         })
 
         // man
-        const modelMan = resources['model-man']
-        const manScene = resources['model-man'].scene
-        const menModels = manScene.children[0].children
-        menModels.forEach((mesh: any) => {
-            if (mesh instanceof SkinnedMesh) {
-                // console.log(mesh)
-                const model = mesh
-                const color = model.name.split('0')[0]
-                const matcapName = `matcap-${color}`
-                const material = skinningMatcap(resources[matcapName]) 
-                model.material = material
-            }
-        })
-        this.scene.add(manScene)
+        this.man = new Man(resources)
+        this.scene.add(this.man.scene)
 
-        this.animationMixer = new AnimationMixer(manScene)
-        const animations = modelMan.animations
-        const playComputer = this.animationMixer.clipAction(animations.find((a: AnimationClip) => a.name === 'say-hello'))
-        playComputer.play()
+        this.man.playComputer()
 
         this.isReady = true
 
-        this.camera.ready(() => {
-            gsap.to('.actions', { top: 0})
-        })
+        // this.camera.ready(() => {
+        //     gsap.to('.actions', { top: 0})
+        // })
 
     }
 

@@ -34,7 +34,7 @@ export default class Camera {
         const camera = new PerspectiveCamera( 40, width / height, 0.1, 10000 )
         // camera.position.copy(this.view.position.clone().multiplyScalar(this.view.scalar))
         camera.up.set(0, 0, 1)
-        camera.position.set(0, -8.3, 4.9)
+        camera.position.set(0, -8.3, 4.0)
         camera.lookAt(new Vector3(0, 0, 1.4))
         
         // camera.position.copy(cameraPosition.clone().normalize().multiplyScalar(multiple))
