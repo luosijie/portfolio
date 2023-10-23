@@ -57,24 +57,25 @@ export default class World {
         this.renderer = this.createRenderer()
         this.scene = new Scene()
         this.camera = new Camera(this.width, this.height)
-        this.controls = new OrbitControls(this.camera.main, this.canvas)
-        this.controls.target.set(0, 0, 1.4)
-        // this.controls.enabled = false
+
+        this.controls = this.createControls()
 
         this.man = null
         this.clockScreen = null
 
         this.raycaster = new Raycaster()
-
-        this.init()
         
     }
 
-    private init () { 
-        // const axesHelper = new AxesHelper(50)
-        // this.scene.add(axesHelper)
+    private createControls () { 
+        const controls = new OrbitControls(this.camera.main, this.canvas)
+        controls.target.set(0, 0, 1.4)
+        controls.maxAzimuthAngle = Math.PI / 4
+        controls.minAzimuthAngle = -Math.PI / 4
+        controls.maxPolarAngle = Math.PI / 2
+        controls.minPolarAngle = -Math.PI / 4
 
-        // this.clock.start()
+        return controls
     }
 
     private createRenderer () {
