@@ -31,18 +31,6 @@ export default class Man {
         this.actions = this.createActions()
 
         this.isSayHello = false
-
-        // this.animationMixer.addEventListener('finished', evt => {
-        //     const clip = evt.action.getClip()
-        //     if (clip.name === 'say-hello') {
-        //         // this.actions.sayHello.reset()
-        //         console.log('say-hello-end')
-        //         this.playComputer()
-        //         this.isSayHello = false
-        //     }
-        // })
-
-        // this.actions.playComputer.play()
     }
     
     private createActions () {

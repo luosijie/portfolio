@@ -4,6 +4,7 @@ import { gsap } from 'gsap'
 
 import Loader from './utils/Loader'
 import configResources from './config/resources'
+import Actions from './Actions'
 
 import World from './Elements/World'
 import { Config } from './Types'
@@ -44,6 +45,20 @@ loader.onFileLoaded(() => {
 loader.onLoadEnd(resources => {
     gsap.to('.loading', { opacity: 0, onComplete: () => {
         world.build(resources)
+
+        gsap.to('.nav', { top: 0, duration: 1, delay: .5, onComplete: () => {
+
+            const navAbout = document.querySelector('.nav-about')
+            const navWorks = document.querySelector('.nav-works')
+
+            if (navAbout instanceof HTMLDivElement && navWorks instanceof HTMLDivElement) {
+                new Actions({
+                    about: navAbout,
+                    works: navWorks
+                })
+            }
+        } })
+
     } })
 
 })
@@ -61,14 +76,4 @@ window.addEventListener('mousemove', (evt: MouseEvent) => {
 /***************************************************************
  * Buttons event binding
  **************************************************************/
-    
-const showInfoButton = document.querySelector('button.show-info')
-showInfoButton?.addEventListener('click', () => {
-    gsap.to('.info', { opacity: 1, display: 'flex' })
-})
-
-const closeInfoButton = document.querySelector('button.close-info')
-closeInfoButton?.addEventListener('click', () => {
-    gsap.to('.info', { opacity: 0, display: 'none' })
-})
 
