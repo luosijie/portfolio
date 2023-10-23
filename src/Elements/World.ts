@@ -16,6 +16,7 @@ import Man from './Man'
 
 import Global from '@/Global'
 import ClockScreen from './ClockScreen'
+import backgroundMaterial from '@/materials/backgroundMaterial'
 const global = Global.getInstance()
 
 // import Sound from './Sound'
@@ -70,10 +71,10 @@ export default class World {
     }
 
     private init () { 
-        const axesHelper = new AxesHelper(50)
-        this.scene.add(axesHelper)
+        // const axesHelper = new AxesHelper(50)
+        // this.scene.add(axesHelper)
 
-        this.clock.start()
+        // this.clock.start()
     }
 
     private createRenderer () {
@@ -129,7 +130,7 @@ export default class World {
 
         // bg
         const bgModel = resources['model-bg'].scene.children[0]
-        const bgMaterial = createBakeMaterial(resources['texture-bg'])
+        const bgMaterial = backgroundMaterial(resources['texture-bg'])
         bgModel.material = bgMaterial
         this.scene.add(bgModel)
 
