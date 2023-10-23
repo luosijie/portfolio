@@ -31,6 +31,8 @@ export default class Man {
         this.actions = this.createActions()
 
         this.isSayHello = false
+
+        this.playComputer()
     }
     
     private createActions () {

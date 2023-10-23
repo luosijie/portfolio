@@ -82,9 +82,10 @@ export default class Slider {
             this.buttons.pre.removeEventListener('click', this.listeners.pre)
         }
 
-        gsap.to('.works', { opacity: 0 , display: 'none'})
-        gsap.to('.works-actions', {opacity: 0, display: 'none'})
-        this.container.style.left = window.innerWidth + 'px'
+        gsap.to('.works', { opacity: 0 , display: 'none', onComplete: () => {
+            this.container.style.left = window.innerWidth + 'px'
+        }})
+        gsap.to('.works-actions', { opacity: 0, display: 'none'})
 
     }
 

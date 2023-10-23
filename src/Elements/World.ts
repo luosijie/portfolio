@@ -1,4 +1,4 @@
-import { AnimationClip, AnimationMixer, AxesHelper, Clock, Mesh, Raycaster, Scene, SkinnedMesh, sRGBEncoding, WebGLRenderer } from 'three'
+import {  AxesHelper, Clock, Mesh, Raycaster, Scene, sRGBEncoding, WebGLRenderer } from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
 import { Config } from '../Types'
@@ -15,6 +15,7 @@ import matcap from '@/materials/matcap'
 import Man from './Man'
 
 import Global from '@/Global'
+import ClockScreen from './ClockScreen'
 const global = Global.getInstance()
 
 // import Sound from './Sound'
@@ -39,6 +40,7 @@ export default class World {
     raycaster: Raycaster
 
     man: Man | null
+    clockScreen: ClockScreen | null
 
     constructor (config: Config) {
         this.isDev = checkDev()
@@ -59,6 +61,7 @@ export default class World {
         // this.controls.enabled = false
 
         this.man = null
+        this.clockScreen = null
 
         this.raycaster = new Raycaster()
 
@@ -151,7 +154,9 @@ export default class World {
         this.man = new Man(resources)
         this.scene.add(this.man.scene)
 
-        this.man.playComputer()
+        // clock screen
+        this.clockScreen = new ClockScreen(resources['model-clock'].scene.children[0])
+        this.scene.add(this.clockScreen.mesh)
 
         this.isReady = true
 

@@ -43,8 +43,8 @@ loader.onFileLoaded(() => {
 })
 
 loader.onLoadEnd(resources => {
-    gsap.to('.loading', { opacity: 0, onComplete: () => {
-        world.build(resources)
+    world.build(resources)
+    gsap.to('.loading', { opacity: 0, delay: .5, duration: 1.5, onComplete: () => {
 
         gsap.to('.nav', { top: 0, duration: 1, delay: .5, onComplete: () => {
 
