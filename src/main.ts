@@ -44,22 +44,24 @@ loader.onFileLoaded(() => {
 
 loader.onLoadEnd(resources => {
     world.build(resources)
-    gsap.to('.loading', { opacity: 0, delay: .5, duration: 1.5, onComplete: () => {
 
-        gsap.to('.nav', { top: 0, duration: 1, delay: .5, onComplete: () => {
+    const tl = gsap.timeline({onComplete: () => {
 
-            const navAbout = document.querySelector('.nav-about')
-            const navWorks = document.querySelector('.nav-works')
+        const navAbout = document.querySelector('.nav-about')
+        const navWorks = document.querySelector('.nav-works')
 
-            if (navAbout instanceof HTMLDivElement && navWorks instanceof HTMLDivElement) {
-                new Actions({
-                    about: navAbout,
-                    works: navWorks
-                })
-            }
-        } })
+        if (navAbout instanceof HTMLDivElement && navWorks instanceof HTMLDivElement) {
+            new Actions({
+                about: navAbout,
+                works: navWorks
+            })
+        }
 
-    } })
+    }})
+    tl.to('.loading .value', {opacity: 0})
+    tl.to('.loading img', { scale: 0, opacity: 0, ease: 'power2' })
+    tl.to('.loading', { opacity: 0, display: 'none' })
+    tl.to('.nav', { top: 0, duration: 1, ease: 'power2'})
 
 })
 

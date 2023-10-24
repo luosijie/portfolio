@@ -1,4 +1,4 @@
-import {  AxesHelper, Clock, Mesh, Raycaster, Scene, sRGBEncoding, WebGLRenderer } from 'three'
+import { Clock, Mesh, Raycaster, Scene, sRGBEncoding, WebGLRenderer } from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
 import { Config } from '../Types'

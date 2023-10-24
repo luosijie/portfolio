@@ -101,16 +101,16 @@ export default class Slider {
         gsap.to(this.container, {left})
 
         if (this.cur === 0) {
-            gsap.to(this.buttons.pre, { opacity: 0})
+            gsap.to(this.buttons.pre, { opacity: 0, ease: 'power2' })
         } else {
-            gsap.to(this.buttons.pre, { opacity: 1})
+            gsap.to(this.buttons.pre, { opacity: 1, ease: 'power2' })
             
         }
 
         if (this.cur === this.total - 1) {
-            gsap.to(this.buttons.next, {opacity: 0})
+            gsap.to(this.buttons.next, { opacity: 0, ease: 'power2' })
         } else {
-            gsap.to(this.buttons.next, {opacity: 1})
+            gsap.to(this.buttons.next, { opacity: 1, ease: 'power2'})
         }
         
     }

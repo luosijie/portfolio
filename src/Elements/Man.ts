@@ -1,6 +1,6 @@
 
 import skinningMatcap from '@/materials/skinningMatcap'
-import { AnimationAction, AnimationClip, AnimationMixer, LoopOnce, LoopRepeat, Scene, SkinnedMesh } from 'three'
+import { AnimationAction, AnimationClip, AnimationMixer, LoopOnce, Scene, SkinnedMesh } from 'three'
 
 type Actions = {
     playComputer: AnimationAction
