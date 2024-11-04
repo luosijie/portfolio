@@ -289,3 +289,13 @@ button {
         }
     }
 }
+.icp {
+    position: fixed;
+    bottom: 10px;
+    z-index: 9999;
+    width: 100vw;
+    text-align: center;
+    a {
+        color: #ffffff30;
+    }
+}
